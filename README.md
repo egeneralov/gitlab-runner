@@ -1,38 +1,66 @@
-Role Name
-=========
+egeneralov.gitlab-runner
+========================
 
-A brief description of the role goes here.
+Provision gitlab-runner with auto-configuration.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- debian 9
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- **gitlab_runner_executor**: "docker"
+- **gitlab_runner_ci_server_url**: https://gitlab.com/
+- **gitlab_runner_registration_token**: b6jR_DnMjMSWVExkhjX1
+- **gitlab_runner_docker_default_image**: docker:dind
+- **gitlab_runner_config_file**: /etc/gitlab-runner/config.toml
+- **gitlab_runner_docker_image**: gitlab/gitlab-runner:v11.6.1
+- **gitlab_runner_tag_list**:
+  - gitlab
+  - docker
+- **gitlab_runner_register_run_untagged**: "true"
+- **gitlab_runner_register_locked**: "false"
+- **gitlab_runner_request_concurrency**: 2
+- **gitlab_runner_name**: my-gitlab-runner
+- **gitlab_runner_ci_server_token**: ""
+- **gitlab_runner_ci_server_tls_ca_file**: ""
+- **gitlab_runner_ci_server_tls_cert_file**: ""
+- **gitlab_runner_ci_server_tls_key_file**: ""
+- **gitlab_runner_builds_dir**: ""
+- **gitlab_runner_pre_clone_script**: ""
+- **gitlab_runner_pre_build_script**: ""
+- **gitlab_runner_post_build_script**: ""
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- egeneralov.docker
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+    - hosts: runners
+      vars:
+        gitlab_runner_ci_server_url: https://gitlab.com/
+        gitlab_runner_registration_token: b6jR_DnMjMSWVExkhjX1
+        gitlab_runner_docker_default_image: docker:dind
+        gitlab_runner_docker_image: gitlab/gitlab-runner:v11.8.0
+        gitlab_runner_tag_list:
+          - docker
+        gitlab_runner_register_run_untagged: "true"
+        gitlab_runner_register_locked: "false"
+        gitlab_runner_name: my-gitlab-runner
       roles:
-         - { role: username.rolename, x: 42 }
+         - egeneralov.gitlab-runner
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Eduard Generalov <eduard@generalov.net>

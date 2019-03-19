@@ -1,0 +1,48 @@
+---
+
+- name: "Deploy runner {{ gitlab_runner_name }}"
+  docker_container:
+    name: "{{ gitlab_runner_name }}"
+    image: "{{ gitlab_runner_docker_image }}"
+    network_mode: host
+    state: started
+    restart_policy: always
+    volumes:
+      - "/var/lib/docker.sock:/var/lib/docker.sock"
+      - "/srv/gitlab-runner/config:/etc/gitlab-runner"
+  register: runner
+
+- name: "Register runner {{ gitlab_runner_name }}"
+  docker_container:
+    name: "register-{{ gitlab_runner_name }}"
+    image: "{{ gitlab_runner_docker_image }}"
+    state: started
+    auto_remove: yes
+    network_mode: host
+    entrypoint: /usr/bin/gitlab-runner
+    command: register
+    interactive: yes
+    volumes:
+      - "/var/lib/docker.sock:/var/lib/docker.sock"
+      - "/srv/gitlab-runner/config:/etc/gitlab-runner"
+    env:
+      REGISTER_NON_INTERACTIVE: "true"
+      DOCKER_IMAGE: "{{ gitlab_runner_docker_default_image }}"
+      CONFIG_FILE: "{{ gitlab_runner_config_file }}"
+      RUNNER_TAG_LIST: "{{ gitlab_runner_tag_list|join(',') | quote }}"
+      REGISTRATION_TOKEN: "{{ gitlab_runner_registration_token }}"
+      REGISTER_RUN_UNTAGGED: "{{ gitlab_runner_register_run_untagged }}"
+      REGISTER_LOCKED: "{{ gitlab_runner_register_locked }}"
+      RUNNER_NAME: "{{ gitlab_runner_name }}"
+      RUNNER_REQUEST_CONCURRENCY: "{{ gitlab_runner_request_concurrency | quote }}"
+      CI_SERVER_URL: "{{ gitlab_runner_ci_server_url }}"
+      CI_SERVER_TOKEN: "{{ gitlab_runner_ci_server_token }}"
+      CI_SERVER_TLS_CA_FILE: "{{ gitlab_runner_ci_server_tls_ca_file }}"
+      CI_SERVER_TLS_CERT_FILE: "{{ gitlab_runner_ci_server_tls_cert_file }}"
+      CI_SERVER_TLS_KEY_FILE: "{{ gitlab_runner_ci_server_tls_key_file }}"
+      RUNNER_EXECUTOR: "{{ gitlab_runner_executor }}"
+      RUNNER_BUILDS_DIR: "{{ gitlab_runner_builds_dir }}"
+      RUNNER_PRE_CLONE_SCRIPT: "{{ gitlab_runner_pre_clone_script }}"
+      RUNNER_PRE_BUILD_SCRIPT: "{{ gitlab_runner_pre_build_script }}"
+      RUNNER_POST_BUILD_SCRIPT: "{{ gitlab_runner_post_build_script }}"
+  when: runner is changed
