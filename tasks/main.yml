@@ -4,3 +4,7 @@
 - name: install into docker
   import_tasks: dind.yml
   when: gitlab_runner_executor == 'docker'
+
+- name: install system-wide
+  import_tasks: shell.yml
+  when: gitlab_runner_executor == 'shell'
