@@ -1,4 +1,4 @@
-egeneralov.gitlab-runner
+egeneralov.gitlab_runner
 ========================
 
 Provision gitlab-runner with auto-configuration.
@@ -53,7 +53,7 @@ Example Playbook
         gitlab_runner_register_locked: "false"
         gitlab_runner_name: my-gitlab-runner
       roles:
-         - egeneralov.gitlab-runner
+         - egeneralov.gitlab_runner
 
 License
 -------
