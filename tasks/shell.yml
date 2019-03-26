@@ -50,8 +50,8 @@
   delay: 2
 
 
-
-- shell: /usr/bin/gitlab-runner register
+- name: "Register runner"
+  shell: "/usr/bin/gitlab-runner register"
   environment:
     REGISTER_NON_INTERACTIVE: "true"
     DOCKER_IMAGE: "{{ gitlab_runner_docker_default_image }}"
@@ -72,4 +72,3 @@
     RUNNER_PRE_CLONE_SCRIPT: "{{ gitlab_runner_pre_clone_script }}"
     RUNNER_PRE_BUILD_SCRIPT: "{{ gitlab_runner_pre_build_script }}"
     RUNNER_POST_BUILD_SCRIPT: "{{ gitlab_runner_post_build_script }}"
-
