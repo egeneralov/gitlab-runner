@@ -23,7 +23,7 @@
 
 - name: import repo
   apt_repository:
-    repo: "deb [arch=amd64] https://packages.gitlab.com/runner/gitlab-runner/debian/ {{ ansible_distribution_release | lower }} main"
+    repo: "deb [arch=amd64] https://packages.gitlab.com/runner/gitlab-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release | lower }} main"
     filename: docker
   register: repo
   until: repo is success
