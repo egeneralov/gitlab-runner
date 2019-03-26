@@ -8,7 +8,7 @@
     state: started
     restart_policy: always
     volumes:
-      - "/var/lib/docker.sock:/var/lib/docker.sock"
+      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/srv/gitlab-runner/config:/etc/gitlab-runner"
   register: runner
 
@@ -20,10 +20,10 @@
     auto_remove: yes
     network_mode: host
     entrypoint: /usr/bin/gitlab-runner
-    command: register
+    command: register --docker-volumes /var/run/docker.sock
     interactive: yes
     volumes:
-      - "/var/lib/docker.sock:/var/lib/docker.sock"
+      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/srv/gitlab-runner/config:/etc/gitlab-runner"
     env:
       REGISTER_NON_INTERACTIVE: "true"
