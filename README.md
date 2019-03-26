@@ -41,19 +41,35 @@ Dependencies
 Example Playbook
 ----------------
 
-    - hosts: runners
+    - hosts: gitlab-runner-dind
       vars:
+        gitlab_runner_executor: docker
         gitlab_runner_ci_server_url: https://gitlab.com/
         gitlab_runner_registration_token: b6jR_DnMjMSWVExkhjX1
         gitlab_runner_docker_default_image: docker:dind
         gitlab_runner_docker_image: gitlab/gitlab-runner:v11.8.0
         gitlab_runner_tag_list:
-          - docker
+          - dind
         gitlab_runner_register_run_untagged: "true"
         gitlab_runner_register_locked: "false"
-        gitlab_runner_name: my-gitlab-runner
+        gitlab_runner_name: my-dind-gitlab-runner
+      roles:
+         - egeneralov.docker
+         - egeneralov.gitlab_runner
+    
+    - hosts: gitlab-runner-shell
+      vars:
+        gitlab_runner_executor: shell
+        gitlab_runner_ci_server_url: https://gitlab.com/
+        gitlab_runner_registration_token: b6jR_DnMjMSWVExkhjX1
+        gitlab_runner_tag_list:
+          - shell
+        gitlab_runner_register_run_untagged: "true"
+        gitlab_runner_register_locked: "false"
+        gitlab_runner_name: my-shell-gitlab-runner
       roles:
          - egeneralov.gitlab_runner
+    
 
 License
 -------
