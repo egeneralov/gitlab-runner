@@ -78,7 +78,7 @@
   lineinfile:
     path: /srv/gitlab-runner/config/config.toml
     line: "  output_limit = 16980"
-    insert_after: "[[runners]]"
+    insertafter: "[[runners]]"
   register: trg_output
 
 
