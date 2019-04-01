@@ -76,7 +76,7 @@
 
 - name: fix output_limit
   lineinfile:
-    path: /srv/gitlab-runner/config/config.toml
+    path: /etc/gitlab-runner/config.toml
     line: "  output_limit = 16980"
     insertafter: "[[runners]]"
   register: trg_output
