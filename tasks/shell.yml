@@ -84,7 +84,7 @@
 
 - name: fix concurrent
   lineinfile:
-    path: /srv/gitlab-runner/config/config.toml
+    path: /etc/gitlab-runner/config.toml
     line: "concurrent = {{ gitlab_runner_request_concurrency }}"
     regexp: "concurrent.*"
   register: trg_concurrent
