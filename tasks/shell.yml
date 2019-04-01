@@ -72,3 +72,26 @@
     RUNNER_PRE_CLONE_SCRIPT: "{{ gitlab_runner_pre_clone_script }}"
     RUNNER_PRE_BUILD_SCRIPT: "{{ gitlab_runner_pre_build_script }}"
     RUNNER_POST_BUILD_SCRIPT: "{{ gitlab_runner_post_build_script }}"
+
+
+- name: fix output_limit
+  lineinfile:
+    path: /srv/gitlab-runner/config/config.toml
+    line: "  output_limit = 16980"
+    insert_after: "[[runners]]"
+  register: trg_output
+
+
+- name: fix concurrent
+  lineinfile:
+    path: /srv/gitlab-runner/config/config.toml
+    line: "concurrent = {{ gitlab_runner_request_concurrency }}"
+    regexp: "concurrent.*"
+  register: trg_concurrent
+
+
+- name: restart runner
+  systemd:
+    name: gitlab-runner
+    state: restarted
+  when: trg_concurrent is changed or trg_output is changed
