@@ -1,5 +1,9 @@
 ---
 
+- name: Install docker
+  include_role:
+    name: egeneralov.docker
+
 - name: "Deploy runner {{ gitlab_runner_name }}"
   docker_container:
     name: "{{ gitlab_runner_name }}"

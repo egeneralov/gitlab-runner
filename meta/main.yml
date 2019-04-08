@@ -16,5 +16,4 @@ galaxy_info:
     - runner
     - debian
 
-#dependencies:
-#  - egeneralov.docker
+dependencies: []
