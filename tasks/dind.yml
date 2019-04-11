@@ -4,6 +4,7 @@
   include_role:
     name: egeneralov.docker
 
+
 - name: "Deploy runner {{ gitlab_runner_name }}"
   docker_container:
     name: "{{ gitlab_runner_name }}"
@@ -15,6 +16,7 @@
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/srv/gitlab-runner/config:/etc/gitlab-runner"
   register: runner
+
 
 - name: "Register runner {{ gitlab_runner_name }}"
   docker_container:
@@ -68,8 +70,7 @@
   register: trg_concurrent
 
 
-- name: restart runner
+- name: Restart a container
   docker_container:
     name: "{{ gitlab_runner_name }}"
-    state: restarted
-  when: trg_concurrent is changed or trg_output is changed
+    restart: "{% if trg_concurrent is changed or trg_output is changed %}yes{% else %}no{% endif %}"
