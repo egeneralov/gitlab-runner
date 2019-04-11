@@ -61,6 +61,14 @@
     insertafter: "[[runners]]"
   register: trg_output
 
+- name: fix privileged
+  lineinfile:
+    path: /srv/gitlab-runner/config/config.toml
+    line: "    privileged = true"
+    regexp: "    privileged.*"
+    insertafter: "[runners.docker]"
+  register: trg_priv
+
 
 - name: fix concurrent
   lineinfile:
@@ -73,4 +81,4 @@
 - name: Restart a container
   docker_container:
     name: "{{ gitlab_runner_name }}"
-    restart: "{% if trg_concurrent is changed or trg_output is changed %}yes{% else %}no{% endif %}"
+    restart: "{% if trg_concurrent is changed or trg_output is changed or trg_priv is changed %}yes{% else %}no{% endif %}"
