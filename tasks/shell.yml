@@ -4,11 +4,15 @@
 - name: System-wide deps
   apt:
     name: ['ca-certificates', 'apt-transport-https', 'debian-archive-keyring', 'python-pip']
+      - ca-certificates
+      - apt-transport-https
+      - debian-archive-keyring
+      - python-pip
     update_cache: yes
     cache_valid_time: 3600
   register: task_result
   until: task_result is success
-  retries: 10
+  retries: 3
   delay: 2
 
 
@@ -17,36 +21,27 @@
     url: "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
   register: key
   until: key is success
-  retries: 10
+  retries: 3
   delay: 2
 
 
 - name: import repo
   apt_repository:
     repo: "deb [arch=amd64] https://packages.gitlab.com/runner/gitlab-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release | lower }} main"
-    filename: docker
+    filename: gitlab
   register: repo
   until: repo is success
-  retries: 10
+  retries: 3
   delay: 2
-
-
-- name: "update_cache"
-  apt:
-    update_cache: yes
-  register: task_result
-  until: task_result is success
-  retries: 10
-  delay: 2
-  when: key is changed or repo is changed
 
 
 - name: "apt-get install -yq gitlab-runner"
   apt:
     name: gitlab-runner
+    update_cache: "{% if key is changed or repo is changed %}yes{% else %}{% endif %}"
   register: task_result
   until: task_result is success
-  retries: 10
+  retries: 3
   delay: 2
 
 
