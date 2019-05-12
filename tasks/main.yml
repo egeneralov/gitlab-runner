@@ -1,10 +1,6 @@
 ---
 # tasks file for egeneralov.gitlab-runner
 
-- name: install into docker
-  include_tasks: dind.yml
-  when: gitlab_runner_executor == 'docker'
+- name: "install into {{ gitlab_runner_executor }}"
+  include_tasks: "{{ gitlab_runner_executor }}.yml"
 
-- name: install system-wide
-  include_tasks: shell.yml
-  when: gitlab_runner_executor == 'shell'
