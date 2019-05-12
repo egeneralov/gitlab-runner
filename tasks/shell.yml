@@ -3,7 +3,7 @@
 
 - name: System-wide deps
   apt:
-    name: ['ca-certificates', 'apt-transport-https', 'debian-archive-keyring', 'python-pip']
+    name:
       - ca-certificates
       - apt-transport-https
       - debian-archive-keyring
