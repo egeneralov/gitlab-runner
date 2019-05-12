@@ -1,6 +1,5 @@
 ---
 
-
 - name: System-wide deps
   apt:
     name:
@@ -15,7 +14,6 @@
   retries: 3
   delay: 2
 
-
 - name: import key
   apt_key:
     url: "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
@@ -23,7 +21,6 @@
   until: key is success
   retries: 3
   delay: 2
-
 
 - name: import repo
   apt_repository:
@@ -34,7 +31,6 @@
   retries: 3
   delay: 2
 
-
 - name: "apt-get install -yq gitlab-runner"
   apt:
     name: gitlab-runner
@@ -43,7 +39,6 @@
   until: task_result is success
   retries: 3
   delay: 2
-
 
 - name: "Register runner"
   shell: "/usr/bin/gitlab-runner register"
@@ -68,7 +63,6 @@
     RUNNER_PRE_BUILD_SCRIPT: "{{ gitlab_runner_pre_build_script }}"
     RUNNER_POST_BUILD_SCRIPT: "{{ gitlab_runner_post_build_script }}"
 
-
 - name: fix output_limit
   lineinfile:
     path: /etc/gitlab-runner/config.toml
@@ -76,14 +70,12 @@
     insertafter: "[[runners]]"
   register: trg_output
 
-
 - name: fix concurrent
   lineinfile:
     path: /etc/gitlab-runner/config.toml
     line: "concurrent = {{ gitlab_runner_request_concurrency }}"
     regexp: "concurrent.*"
   register: trg_concurrent
-
 
 - name: restart runner
   systemd:
