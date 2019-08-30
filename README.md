@@ -6,7 +6,20 @@ Provision gitlab-runner with auto-configuration.
 Requirements
 ------------
 
-- debian 9
+- debian-based system
+- gitlab anywhere
+
+Fast install
+------------
+
+    wget -O - https://raw.githubusercontent.com/egeneralov/gitlab-runner/master/get.sh 2>/dev/null | GITLAB_TOKEN=b6jR_DnMjMSWVExkhjX1 bash -xe
+
+Possible values:
+
+- **GITLAB_URL** optional, `https://gitlab.com`
+- **GITLAB_TOKEN** required
+- **GITLAB_NAME** optional, `$(hostname)`
+
 
 Role Variables
 --------------
