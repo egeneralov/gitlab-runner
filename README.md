@@ -20,6 +20,7 @@ Possible values:
 - **GITLAB_TOKEN** required
 - **GITLAB_NAME** optional, `$(hostname)`
 
+Also, runner will have one tag, same as his name.
 
 Role Variables
 --------------
