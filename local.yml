@@ -8,5 +8,6 @@
     gitlab_runner_name: my-gitlab-runner
     gitlab_runner_tag_list:
       - "{{ gitlab_runner_name }}"
+    gitlab_runner_register_run_untagged: "false"
   roles:
     - egeneralov.gitlab-runner
