@@ -43,7 +43,7 @@ Example Playbook
 
     - hosts: gitlab-runner-dind
       vars:
-        gitlab_runner_executor: docker
+        gitlab_runner_executor: dind
         gitlab_runner_ci_server_url: https://gitlab.com/
         gitlab_runner_registration_token: b6jR_DnMjMSWVExkhjX1
         gitlab_runner_docker_default_image: docker:dind
